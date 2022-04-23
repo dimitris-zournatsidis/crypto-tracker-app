@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import './App.css';
 import Coin from './Coin';
@@ -8,6 +8,14 @@ function App() {
   const [coins, setCoins] = useState<ICoins[]>([]);
   const [search, setSearch] = useState('');
   const ref: any = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const filteredCoins = useMemo(() => getFilteredCoins(), [search]);
+
+  function getFilteredCoins() {
+    return coins.filter((coin) =>
+      coin.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
 
   useEffect(() => {
     ref.current.focus();
@@ -30,10 +38,6 @@ function App() {
   function handleChange(event: any) {
     setSearch(event.target.value);
   }
-
-  const filteredCoins = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <div className="coin-app">
