@@ -4,6 +4,9 @@ import './App.css';
 import Coin from './Coin';
 import { ICoins } from '../assets/fixtures';
 
+const bitcoinsUrl =
+  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=EUR&order=market_cap_desc&per_page=100&page=1&sparkline=false';
+
 function App() {
   const [coins, setCoins] = useState<ICoins[]>([]);
   const [search, setSearch] = useState('');
@@ -23,9 +26,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=EUR&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-      )
+      .get(bitcoinsUrl)
       .then((res) => {
         setCoins(res.data);
       })
@@ -40,15 +41,15 @@ function App() {
   }
 
   return (
-    <div className="coin-app">
-      <div className="coin-search">
-        <h1 className="coin-text">Search a currency</h1>
+    <div className='coin-app'>
+      <div className='coin-search'>
+        <h1 className='coin-text'>Search a currency</h1>
         <form>
           <input
-            type="text"
-            placeholder="Search"
+            type='text'
+            placeholder='Search'
             onChange={handleChange}
-            className="coin-input"
+            className='coin-input'
             ref={ref}
           />
         </form>
